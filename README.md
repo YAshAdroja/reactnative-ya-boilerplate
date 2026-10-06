@@ -1,97 +1,200 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# React Native Professional Boilerplate
 
-# Getting Started
+A modern, production-ready, TypeScript-first React Native boilerplate built on React Native 0.87+ and React 19. Designed for scalability, clean architecture, and rapid feature development out of the box.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+---
 
-## Step 1: Start Metro
+## 🚀 Features
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+- ⚡ **React Native 0.87 + React 19**: Modern core framework setup.
+- 📘 **TypeScript First**: Strict static typing across navigation, Redux, API services, and components.
+- 🧭 **React Navigation v7**: Native stack navigation with typed parameter routes and custom hooks.
+- 📦 **Redux Toolkit + Redux Persist**: Predictable state management with AsyncStorage persistence and root reset on logout.
+- 🌐 **Axios API Layer**: Centralized API service with request/response interceptors, automatic JWT auth header injection, HTTP 401 auto-logout, and mock fallback resilience.
+- 🎨 **Centralized Theme System**: Unified color palette, typography scales, spacing, border radius, and shadow presets.
+- 🛡️ **Form Handling & Validation**: `react-hook-form` integrated with `yup` and `@hookform/resolvers`.
+- 📱 **Unified Screen Wrapper**: Standardized Safe Area, Status Bar, and Keyboard Avoiding view handling via `ScreenWrapper`.
+- ♿ **Accessibility Ready**: Accessible touch targets and accessibility props on common components.
+- ⚙️ **Environment Management**: Multi-environment configuration (`development`, `staging`, `production`).
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+---
 
-```sh
-# Using npm
+## 🛠️ Tech Stack
+
+- **Framework**: React Native 0.87.0
+- **Language**: TypeScript 6.0
+- **State Management**: `@reduxjs/toolkit` 2.x, `react-redux` 9.x, `redux-persist` 6.x
+- **Navigation**: `@react-navigation/native` 7.x, `@react-navigation/native-stack` 7.x
+- **HTTP Client**: `axios` 1.x
+- **Storage**: `@react-native-async-storage/async-storage` 3.x
+- **Forms**: `react-hook-form` 7.x, `yup` 1.x
+
+---
+
+## 📋 Requirements
+
+- Node.js >= 22.11.0
+- npm or yarn / pnpm
+- Android Studio & Android SDK (for Android builds)
+- Xcode & CocoaPods (for iOS builds, macOS only)
+
+---
+
+## 📥 Installation
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/YAshAdroja/reactnative-ya-boilerplate.git
+cd reactnative-ya-boilerplate
+
+# 2. Install dependencies
+npm install
+
+# 3. Install iOS CocoaPods (macOS only)
+npm run pod-install
+```
+
+---
+
+## 🏃 Running the Application
+
+### Start Metro Bundler
+```bash
 npm start
-
-# OR using Yarn
-yarn start
+# Or with cache reset
+npm run start:reset
 ```
 
-## Step 2: Build and run your app
-
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
-
-### Android
-
-```sh
-# Using npm
+### Android Build
+```bash
 npm run android
-
-# OR using Yarn
-yarn android
 ```
 
-### iOS
-
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
-
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
-
-```sh
-bundle install
-```
-
-Then, and every time you update your native dependencies, run:
-
-```sh
-bundle exec pod install
-```
-
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
-
-```sh
-# Using npm
+### iOS Build
+```bash
 npm run ios
-
-# OR using Yarn
-yarn ios
 ```
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+---
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+## ⚙️ Environment Configuration
 
-## Step 3: Modify your app
+Environment settings are configured in `src/config/env.ts`. It provides typed configurations for different execution modes (`development`, `staging`, `production`):
 
-Now that you have successfully run the app, let's make changes!
+```typescript
+import Config from './src/config/env';
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
+console.log(Config.API_BASE_URL); // Outputs environment specific API URL
+```
 
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
+---
 
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
+## 📂 Folder Structure
 
-## Congratulations! :tada:
+```text
+src/
+├── components/      # Reusable UI components (CustomButton, CustomInput, ScreenWrapper, etc.)
+├── config/          # Environment and application configuration
+├── hooks/           # Custom React hooks (useDebounce, etc.)
+├── navigation/      # Stack navigation config and typed navigation hooks
+├── screens/         # Application screens (Home, Details, UserForm)
+├── services/        # Axios API client, interceptors, and endpoints
+├── store/           # Redux Toolkit store, rootReducer, and feature slices
+├── theme/           # Style design tokens (colors, spacing, typography)
+├── types/           # Global TypeScript definitions
+├── utils/           # Helper utilities, constants, and AsyncStorage wrapper
+└── validation/      # Form validation schemas (Yup)
+```
 
-You've successfully run and modified your React Native App. :partying_face:
+---
 
-### Now what?
+## 🧩 Key Architecture Overview
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
+### Navigation
+Defined in `src/navigation/AppNavigator.tsx`. Use the typed `useAppNavigation` hook inside components:
+```typescript
+import { useAppNavigation } from '../navigation/useAppNavigation';
 
-# Troubleshooting
+const navigation = useAppNavigation();
+navigation.navigate('Details', { id: user.id });
+```
 
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+### Redux State
+State slices are managed in `src/store/slices/`. Use typed hooks:
+```typescript
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { fetchUsers } from '../store/slices/userSlice';
 
-# Learn More
+const dispatch = useAppDispatch();
+const { users, loading } = useAppSelector((state) => state.users);
+```
 
-To learn more about React Native, take a look at the following resources:
+### API Service
+API requests use the Axios instance in `src/services/api.ts`. Includes mock data fallbacks for seamless offline testing:
+```typescript
+import { userService } from '../services/api';
 
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+const data = await userService.getUsers(page, limit, searchQuery);
+```
+
+---
+
+## 🏷️ Renaming the Application
+
+To rename the project from `AwesomeProject` to your custom app name:
+
+1. Update `name` and `displayName` in `app.json`.
+2. Update `name` in `package.json`.
+3. Use [`react-native-rename`](https://www.npmjs.com/package/react-native-rename) or update bundle identifiers manually:
+   - **Android**: `android/app/build.gradle` (`applicationId`), `AndroidManifest.xml` (`package`).
+   - **iOS**: Xcode project target bundle identifier and display name.
+
+---
+
+## ➕ Creating a New Feature
+
+1. **Define Types**: Add model interfaces and navigation param definitions in `src/types/index.ts`.
+2. **Create Slice**: Create a Redux slice in `src/store/slices/myFeatureSlice.ts` and attach to `src/store/rootReducer.ts`.
+3. **Add API Service**: Add endpoints in `src/services/endpoints.ts` and helper methods in `src/services/api.ts`.
+4. **Create Screen**: Create screen in `src/screens/MyFeature/MyFeatureScreen.tsx` wrapped with `ScreenWrapper`.
+5. **Register Route**: Add route screen to `src/navigation/AppNavigator.tsx`.
+
+---
+
+## 🎨 Theme & Styling
+
+Design tokens are exported from `src/theme/index.ts`:
+```typescript
+import { colors, spacing, typography } from '../theme';
+
+const styles = StyleSheet.create({
+  container: {
+    padding: spacing.md,
+    backgroundColor: colors.background,
+  },
+});
+```
+
+---
+
+## 🔍 Verification & Linting
+
+```bash
+# Type check TypeScript code
+npm run typecheck
+
+# Run ESLint linter
+npm run lint
+
+# Auto-fix lint issues
+npm run lint:fix
+
+# Run Jest tests
+npm test
+```
+
+---
+
+## 📄 License
+
+This boilerplate is licensed under the MIT License.
