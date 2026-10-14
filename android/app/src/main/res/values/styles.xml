@@ -6,4 +6,15 @@
         <item name="android:editTextBackground">@drawable/rn_edit_text_material</item>
     </style>
 
+    <!--
+        BootSplash Theme — Used by react-native-bootsplash.
+        TODO: After running `npx react-native-bootsplash generate` this style will be
+        auto-populated with the correct windowSplashScreenBackground, etc.
+        See: https://github.com/zoontek/react-native-bootsplash#android-1
+    -->
+    <style name="BootTheme" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">#0066CC</item>
+        <item name="postSplashScreenTheme">@style/AppTheme</item>
+    </style>
+
 </resources>

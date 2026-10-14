@@ -1,23 +1,29 @@
 import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, Alert } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../types';
+import type { MainStackParamList } from '../../navigation/AppNavigator';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { fetchUserById, removeUser } from '../../store/slices/userSlice';
 import { Loader, EmptyView, CustomButton } from '../../components';
-import { colors, spacing, borderRadius, typography, shadows } from '../../theme';
+import {
+  colors,
+  spacing,
+  borderRadius,
+  typography,
+  shadows,
+} from '../../theme';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Details'>;
+type Props = NativeStackScreenProps<MainStackParamList, 'Details'>;
 
 export const DetailsScreen: React.FC<Props> = ({ route, navigation }) => {
   const { id } = route.params;
   const dispatch = useAppDispatch();
 
   // Try selecting user directly from existing state list first, or fallback to selectedUser
-  const userFromList = useAppSelector((state) =>
-    state.users.users.find((u) => String(u.id) === String(id))
+  const userFromList = useAppSelector(state =>
+    state.users.users.find(u => String(u.id) === String(id)),
   );
-  const { selectedUser, loading, error } = useAppSelector((state) => state.users);
+  const { selectedUser, loading, error } = useAppSelector(state => state.users);
 
   const user = userFromList || selectedUser;
 
@@ -48,7 +54,7 @@ export const DetailsScreen: React.FC<Props> = ({ route, navigation }) => {
             navigation.goBack();
           },
         },
-      ]
+      ],
     );
   };
 
@@ -115,7 +121,12 @@ export const DetailsScreen: React.FC<Props> = ({ route, navigation }) => {
         <View style={styles.card}>
           <Text style={styles.cardTitle}>Address</Text>
           <Text style={styles.addressText}>
-            {[user.address.street, user.address.suite, user.address.city, user.address.zipcode]
+            {[
+              user.address.street,
+              user.address.suite,
+              user.address.city,
+              user.address.zipcode,
+            ]
               .filter(Boolean)
               .join(', ')}
           </Text>

@@ -11,21 +11,22 @@ import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-import { RootStackParamList, UserFormValues } from '../../types';
+import type { MainStackParamList } from '../../navigation/AppNavigator';
+import { UserFormValues } from '../../types';
 import { userValidationSchema } from '../../validation/userValidation';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { addUser, editUser } from '../../store/slices/userSlice';
 import { CustomInput, CustomButton } from '../../components';
 import { colors, spacing } from '../../theme';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Form'>;
+type Props = NativeStackScreenProps<MainStackParamList, 'Form'>;
 
 export const UserFormScreen: React.FC<Props> = ({ route, navigation }) => {
   const existingUser = route.params?.user;
   const isEditMode = !!existingUser;
 
   const dispatch = useAppDispatch();
-  const { loading } = useAppSelector((state) => state.users);
+  const { loading } = useAppSelector(state => state.users);
 
   const {
     control,
@@ -54,7 +55,9 @@ export const UserFormScreen: React.FC<Props> = ({ route, navigation }) => {
   const onSubmit = async (data: UserFormValues) => {
     try {
       if (isEditMode && existingUser) {
-        await dispatch(editUser({ id: existingUser.id, userData: data })).unwrap();
+        await dispatch(
+          editUser({ id: existingUser.id, userData: data }),
+        ).unwrap();
         Alert.alert('Success', 'User profile updated successfully.');
       } else {
         await dispatch(addUser(data)).unwrap();

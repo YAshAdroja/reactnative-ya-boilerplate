@@ -31,33 +31,50 @@ export const spacing = {
   xxl: 40,
 };
 
+export const fonts = {
+  light: 'Nunito-Light',
+  regular: 'Nunito-Regular',
+  medium: 'Nunito-Medium',
+  semiBold: 'Nunito-SemiBold',
+  bold: 'Nunito-Bold',
+  extraBold: 'Nunito-ExtraBold',
+} as const;
+
+export type FontFamily = (typeof fonts)[keyof typeof fonts];
+
 export const typography = {
   h1: {
+    fontFamily: fonts.bold,
     fontSize: 28,
     fontWeight: '700' as const,
     color: colors.text,
   },
   h2: {
+    fontFamily: fonts.semiBold,
     fontSize: 22,
     fontWeight: '600' as const,
     color: colors.text,
   },
   h3: {
+    fontFamily: fonts.semiBold,
     fontSize: 18,
     fontWeight: '600' as const,
     color: colors.text,
   },
   body: {
+    fontFamily: fonts.regular,
     fontSize: 15,
     fontWeight: '400' as const,
     color: colors.text,
   },
   caption: {
+    fontFamily: fonts.regular,
     fontSize: 13,
     fontWeight: '400' as const,
     color: colors.textSecondary,
   },
   button: {
+    fontFamily: fonts.semiBold,
     fontSize: 16,
     fontWeight: '600' as const,
   },
@@ -87,12 +104,27 @@ export const shadows = {
   },
 };
 
+export const iconSizes = {
+  xs: 12,
+  sm: 16,
+  md: 20,
+  base: 24,
+  lg: 28,
+  xl: 32,
+  xxl: 48,
+  hero: 64,
+} as const;
+
+export type IconSize = keyof typeof iconSizes | number;
+
 export const theme = {
   colors,
   spacing,
   typography,
   borderRadius,
   shadows,
+  iconSizes,
+  fonts,
 };
 
 export type Theme = typeof theme;

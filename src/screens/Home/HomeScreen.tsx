@@ -8,19 +8,30 @@ import {
   Text,
 } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList, User } from '../../types';
+import { User } from '../../types';
+import type { MainStackParamList } from '../../navigation/AppNavigator';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { fetchUsers, removeUser, setSearchQuery } from '../../store/slices/userSlice';
+import {
+  fetchUsers,
+  removeUser,
+  setSearchQuery,
+} from '../../store/slices/userSlice';
 import { useDebounce } from '../../hooks/useDebounce';
-import { UserItem, Loader, EmptyView, CustomInput, CustomButton } from '../../components';
+import {
+  UserItem,
+  Loader,
+  EmptyView,
+  CustomInput,
+  CustomButton,
+} from '../../components';
 import { colors, spacing, typography } from '../../theme';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
+type Props = NativeStackScreenProps<MainStackParamList, 'Home'>;
 
 export const HomeScreen: React.FC<Props> = ({ navigation }) => {
   const dispatch = useAppDispatch();
   const { users, loading, refreshing, pagination, error } = useAppSelector(
-    (state) => state.users
+    state => state.users,
   );
 
   const [searchInput, setSearchInput] = useState('');
@@ -39,7 +50,11 @@ export const HomeScreen: React.FC<Props> = ({ navigation }) => {
 
   // Pagination handler (load next page)
   const handleLoadMore = useCallback(() => {
-    if (!pagination.loadingMore && pagination.hasMore && loading !== 'loading') {
+    if (
+      !pagination.loadingMore &&
+      pagination.hasMore &&
+      loading !== 'loading'
+    ) {
       const nextPage = pagination.page + 1;
       dispatch(fetchUsers({ page: nextPage, search: debouncedSearch }));
     }
@@ -50,14 +65,14 @@ export const HomeScreen: React.FC<Props> = ({ navigation }) => {
     (user: User) => {
       navigation.navigate('Details', { id: user.id });
     },
-    [navigation]
+    [navigation],
   );
 
   const handleEditPress = useCallback(
     (user: User) => {
       navigation.navigate('Form', { user });
     },
-    [navigation]
+    [navigation],
   );
 
   const handleDeletePress = useCallback(
@@ -72,10 +87,10 @@ export const HomeScreen: React.FC<Props> = ({ navigation }) => {
             style: 'destructive',
             onPress: () => dispatch(removeUser(user.id)),
           },
-        ]
+        ],
       );
     },
-    [dispatch]
+    [dispatch],
   );
 
   const renderItem = useCallback(
@@ -87,7 +102,7 @@ export const HomeScreen: React.FC<Props> = ({ navigation }) => {
         onDelete={handleDeletePress}
       />
     ),
-    [handleUserPress, handleEditPress, handleDeletePress]
+    [handleUserPress, handleEditPress, handleDeletePress],
   );
 
   const keyExtractor = useCallback((item: User) => String(item.id), []);
@@ -124,7 +139,9 @@ export const HomeScreen: React.FC<Props> = ({ navigation }) => {
         }
         buttonTitle={searchInput ? 'Clear Search' : 'Add User'}
         onButtonPress={
-          searchInput ? () => setSearchInput('') : () => navigation.navigate('Form')
+          searchInput
+            ? () => setSearchInput('')
+            : () => navigation.navigate('Form')
         }
       />
     );
