@@ -59,6 +59,7 @@ npm run pod-install
 ## 🏃 Running the Application
 
 ### Start Metro Bundler
+
 ```bash
 npm start
 # Or with cache reset
@@ -66,11 +67,13 @@ npm run start:reset
 ```
 
 ### Android Build
+
 ```bash
 npm run android
 ```
 
 ### iOS Build
+
 ```bash
 npm run ios
 ```
@@ -111,7 +114,9 @@ src/
 ## 🧩 Key Architecture Overview
 
 ### Navigation
+
 Defined in `src/navigation/AppNavigator.tsx`. Use the typed `useAppNavigation` hook inside components:
+
 ```typescript
 import { useAppNavigation } from '../navigation/useAppNavigation';
 
@@ -120,17 +125,21 @@ navigation.navigate('Details', { id: user.id });
 ```
 
 ### Redux State
+
 State slices are managed in `src/store/slices/`. Use typed hooks:
+
 ```typescript
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { fetchUsers } from '../store/slices/userSlice';
 
 const dispatch = useAppDispatch();
-const { users, loading } = useAppSelector((state) => state.users);
+const { users, loading } = useAppSelector(state => state.users);
 ```
 
 ### API Service
+
 API requests use the Axios instance in `src/services/api.ts`. Includes mock data fallbacks for seamless offline testing:
+
 ```typescript
 import { userService } from '../services/api';
 
@@ -141,7 +150,7 @@ const data = await userService.getUsers(page, limit, searchQuery);
 
 ## 🏷️ Renaming the Application
 
-To rename the project from `AwesomeProject` to your custom app name:
+To rename the project from `YABoilerplate` to your custom app name:
 
 1. Update `name` and `displayName` in `app.json`.
 2. Update `name` in `package.json`.
@@ -164,6 +173,7 @@ To rename the project from `AwesomeProject` to your custom app name:
 ## 🎨 Theme & Styling
 
 Design tokens are exported from `src/theme/index.ts`:
+
 ```typescript
 import { colors, spacing, typography } from '../theme';
 
